@@ -28,6 +28,7 @@ export const setupServer = () => {
   app.get('/contacts', async (req, res) => {
     const contacts = await getContacts();
     res.status(200).json({
+      status: 200,
       data: contacts,
       message: 'Successfully found contacts!',
     });
@@ -40,12 +41,13 @@ export const setupServer = () => {
 
     if (!contacts) {
       res.status(404).json({
-        message: 'Student not found',
+        message: 'Contact not found',
       });
       return;
     }
 
     res.status(200).json({
+      status: 200,
       data: contacts,
       message: `Successfully found contact with id ${contactId}!`,
     });
