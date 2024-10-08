@@ -9,6 +9,7 @@ import {
 
 export const getContactsController = async (req, res) => {
   const contacts = await getContacts();
+
   res.status(200).json({
     status: 200,
     data: contacts,
@@ -18,17 +19,26 @@ export const getContactsController = async (req, res) => {
 
 export const getContactByIdController = async (req, res, next) => {
   const { contactId } = req.params;
-  const contacts = await getContactsByID(contactId);
+  const contact = await getContactsByID(contactId);
+
+  if (!contact) {
+    throw createHttpError(404, `Contact with id ${contactId} not found`);
+  }
+
   res.status(200).json({
     status: 200,
-    data: contacts,
+    data: contact,
     message: `Successfully found contact with id ${contactId}!`,
   });
 };
 
 export const deleteContactController = async (req, res) => {
   const { contactId } = req.params;
+  if (!contactId) {
+    throw createHttpError(404, 'Contact not found');
+  }
   await deleteContactByID(contactId);
+
   res.status(204).send();
 };
 
@@ -49,9 +59,12 @@ export const patchContactController = async (req, res) => {
   if (!contact) {
     throw createHttpError(404, 'Contact not found');
   }
+  const contactObject = contact.toObject(); // перетворюємо документ на звичайний об'єкт
+  delete contactObject.__v; // видаляємо поле __v
+
   res.status(200).send({
     status: 200,
     message: 'Successfully patched a contact!',
-    data: req.body,
+    data: contactObject,
   });
 };

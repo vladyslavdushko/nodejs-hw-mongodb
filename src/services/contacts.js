@@ -7,20 +7,15 @@ export const getContacts = async () => {
 
 export const getContactsByID = async (contactId) => {
   const contact = await Contact.findById(contactId);
-  if (!contact) {
-    throw createHttpError(404, `Contact with id ${contactId} not found`);
-  }
+
   return contact;
 };
 
 export const deleteContactByID = async (contactId) => {
   const contact = await Contact.findById(contactId);
-  console.log(contact, 'contact');
-
   if (!contact) {
     throw createHttpError(404, 'Contact not found');
   }
-
   return await Contact.findByIdAndDelete(contactId);
 };
 
@@ -33,8 +28,5 @@ export const patchContactByID = async (contactId, payload) => {
     new: true,
   });
 
-  if (!contact) {
-    throw createHttpError(404, 'Contact not found');
-  }
   return contact;
 };
