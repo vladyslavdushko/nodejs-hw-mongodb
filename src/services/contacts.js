@@ -13,9 +13,6 @@ export const getContactsByID = async (contactId) => {
 
 export const deleteContactByID = async (contactId) => {
   const contact = await Contact.findById(contactId);
-  if (!contact) {
-    throw createHttpError(404, 'Contact not found');
-  }
   return await Contact.findByIdAndDelete(contactId);
 };
 
