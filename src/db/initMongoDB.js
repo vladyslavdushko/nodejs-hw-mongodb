@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import 'dotenv/config';
 
-export const initMongoConnection = async () => {
+export const initMongoDB = async () => {
   try {
     const user = String(process.env.MONGODB_USER);
     const pwd = String(process.env.MONGODB_PASSWORD);

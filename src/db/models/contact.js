@@ -1,18 +1,17 @@
-import { Schema, model } from 'mongoose';
+import { model, Schema } from 'mongoose';
 
-const contactSchema = new Schema(
+const contactsSchema = new Schema(
   {
     name: {
       type: String,
       required: true,
     },
     phoneNumber: {
-      type: Number,
+      type: String,
       required: true,
     },
     email: {
       type: String,
-      default: null,
       required: false,
     },
     isFavourite: {
@@ -27,11 +26,12 @@ const contactSchema = new Schema(
     },
   },
   {
-    timestamps: true,
+    timestamps: {
+      createdAt: 'createdAt',
+      updatedAt: 'updatedAt',
+    },
     versionKey: false,
   },
 );
 
-const Contact = model('Contact', contactSchema);
-
-export default Contact;
+export const ContactsCollection = model('contacts', contactsSchema);
