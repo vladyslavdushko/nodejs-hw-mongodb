@@ -14,7 +14,7 @@ const parseBoolean = (bool) => {
   if (bool.toLowerCase() === 'false') return false;
 };
 
-export const parseContactFilterParams = (query) => {
+export const parseContactFilterParams = (query, userId) => {
   const { type, isFavourite } = query;
 
   const parsedType = parseContactType(type);
@@ -23,5 +23,6 @@ export const parseContactFilterParams = (query) => {
   return {
     type: parsedType,
     isFavourite: parsedIsFavourite,
+    userId,
   };
 };

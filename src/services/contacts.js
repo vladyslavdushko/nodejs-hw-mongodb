@@ -1,5 +1,5 @@
 import { SORT_ORDER } from '../constants/index.js';
-import Contact from '../db/models/contacts.js';
+import { ContactsCollection } from '../db/models/contacts.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 
 export const getAllContacts = async ({
@@ -12,7 +12,7 @@ export const getAllContacts = async ({
   const limit = perPage;
   const skip = (page - 1) * perPage;
 
-  const contactsQuery = Contact.find({ userId: filter.userId }); // Використовуємо фільтр з userId
+  const contactsQuery = ContactsCollection.find({ userId: filter.userId }); // Використовуємо фільтр з userId
 
   if (filter.type) {
     contactsQuery.where('contactType').equals(filter.type);
@@ -21,7 +21,7 @@ export const getAllContacts = async ({
     contactsQuery.where('isFavourite').equals(filter.isFavourite);
   }
 
-  const contactsCount = await Contact.find(filter)
+  const contactsCount = await ContactsCollection.find(filter)
     .merge(contactsQuery)
     .countDocuments();
   const contacts = await contactsQuery
@@ -38,17 +38,17 @@ export const getAllContacts = async ({
 };
 
 export const getContactById = async (contactId, userId) => {
-  const contact = await Contact.findOne({ _id: contactId, userId });
+  const contact = await ContactsCollection.findOne({ _id: contactId, userId });
   return contact;
 };
 
 export const createContact = async (payload) => {
-  const contact = await Contact.create(payload);
+  const contact = await ContactsCollection.create(payload);
   return contact;
 };
 
 export const deleteContact = async (contactId, userId) => {
-  const contact = await Contact.findOneAndDelete({
+  const contact = await ContactsCollection.findOneAndDelete({
     _id: contactId,
     userId,
   });
@@ -56,7 +56,7 @@ export const deleteContact = async (contactId, userId) => {
 };
 
 export const updateContact = async (contactId, payload, options = {}) => {
-  const rawResult = await Contact.findOneAndUpdate(
+  const rawResult = await ContactsCollection.findOneAndUpdate(
     { _id: contactId, userId: payload.userId },
     payload,
     {

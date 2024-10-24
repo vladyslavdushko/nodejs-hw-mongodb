@@ -72,5 +72,3 @@ export const refreshUserSessionController = async (req, res) => {
     },
   });
 };
-import { json } from 'express';
-import { now } from 'mongoose';
